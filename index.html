@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프리미엄 주택 담보 대출 계산기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>주택 담보 대출 계산기</h1>
+            <p class="subtitle">DSR 규제 완벽 반영, 내 집 마련 설계를 시작하세요.</p>
+        </header>
+
+        <main class="calculator-grid">
+            <section class="input-section glass-panel">
+                <h2>정보 입력</h2>
+
+                <!-- 1. Annual Income -->
+                <div class="input-group">
+                    <label for="annual-income">연 소득 (세전)</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="annual-income" placeholder="예: 50,000,000" inputmode="numeric">
+                        <span class="unit">원</span>
+                    </div>
+                    <div class="price-display" id="annual-income-display">0원</div>
+                </div>
+
+
+
+                <!-- 3. House Price -->
+                <div class="input-group">
+                    <label for="house-price">주택 가격</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="house-price" placeholder="예: 500,000,000" inputmode="numeric">
+                        <span class="unit">원</span>
+                    </div>
+                    <div class="price-display" id="house-price-display">0원</div>
+                </div>
+
+                <!-- 4. LTV -->
+                <div class="input-group">
+                    <label for="ltv">LTV (담보인정비율, %)</label>
+                    <div class="range-wrapper">
+                        <input type="range" id="ltv-range" min="0" max="100" value="70" step="5">
+                        <div class="input-wrapper small">
+                            <input type="number" id="ltv" value="70" min="0" max="100">
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Interest Rate -->
+                <div class="input-group">
+                    <label for="interest-rate">연 이자율 (%)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="interest-rate" placeholder="예: 3.5" step="0.1" value="4.5">
+                        <span class="unit">%</span>
+                    </div>
+                </div>
+
+                <!-- 6. Loan Term -->
+                <div class="input-group">
+                    <label for="loan-term">대출 기간 (년)</label>
+                    <div class="range-wrapper">
+                        <input type="range" id="loan-term-range" min="1" max="50" value="30" step="1">
+                        <div class="input-wrapper small">
+                            <input type="number" id="loan-term" value="30" min="1" max="50">
+                            <span class="unit">년</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Main Loan Method (New) -->
+                <div class="input-group">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <label for="main-loan-method" style="margin-bottom: 0;">상환 방식 (주담대)</label>
+                        <div class="checkbox-group"
+                            style="margin: 0; padding: 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="policy-loan-check"
+                                style="width: auto; margin:0; cursor: pointer;">
+                            <label for="policy-loan-check"
+                                style="margin: 0; font-weight:normal; font-size: 0.85rem; color: #cbd5e1; cursor: pointer;">체증식
+                                가능 (정책대출)</label>
+                        </div>
+                    </div>
+                    <div class="input-wrapper" style="padding:0; border:none; background:transparent;">
+                        <select id="main-loan-method"
+                            style="width:100%; padding:0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--glass-border); background: rgba(30, 41, 59, 0.7); color: white; -webkit-appearance: none; appearance: none;">
+                            <option value="equal_pi">원리금균등분할상환</option>
+                            <option value="equal_p">원금균등분할상환</option>
+                            <option value="graduated" disabled>체증식 분할상환 (정책대출 전용)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- 2. Existing Debts (Dynamic List with DSR Regulation Support) -->
+                <div class="input-group">
+                    <div class="flex-row nowrap">
+                        <label>기존 대출 내역 (DSR 계산용)</label>
+                        <button type="button" id="add-debt-btn" class="btn-add">+</button>
+                    </div>
+                    <div id="debt-list-container" class="debt-list-container">
+                        <!-- Debt Items will be added here via JS -->
+                    </div>
+
+                </div>
+
+                <div class="input-group">
+                    <label>나의 보유 자산</label>
+                    <div class="assets-container">
+                        <div class="input-wrapper mini">
+                            <input type="text" id="asset-cash" placeholder="현금/예금" inputmode="numeric">
+                            <span class="unit-mini">현금</span>
+                        </div>
+                        <div class="input-wrapper mini">
+                            <input type="text" id="asset-savings" placeholder="적금" inputmode="numeric">
+                            <span class="unit-mini">적금</span>
+                        </div>
+                        <div class="input-wrapper mini">
+                            <input type="text" id="asset-stock" placeholder="주식" inputmode="numeric">
+                            <span class="unit-mini">주식</span>
+                        </div>
+                        <div class="input-wrapper mini">
+                            <input type="text" id="asset-other" placeholder="기타" inputmode="numeric">
+                            <span class="unit-mini">기타</span>
+                        </div>
+                    </div>
+                    <div class="total-asset-display">
+                        총 자산 합계: <span id="total-assets-display" class="highlight-asset">0원</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="result-section glass-panel">
+                <h2>계산 결과</h2>
+
+                <div class="result-card primary">
+                    <span class="label">최대 대출 가능 금액</span>
+                    <strong class="value" id="max-loan-amount">0원</strong>
+                </div>
+
+                <div class="result-card dsr-card" id="dsr-card">
+                    <div class="flex-row">
+                        <span class="label">예상 DSR (총부채원리금상환비율)</span>
+                        <span class="dsr-badge" id="dsr-status">-</span>
+                    </div>
+                    <strong class="value" id="dsr-value">0%</strong>
+                    <span class="sub-text" id="dsr-text">정보를 입력하면 DSR이 계산됩니다.</span>
+                </div>
+
+                <div class="result-grid">
+                    <!-- Simplified Fund Breakdown (Style matched with DSR card) -->
+                    <div class="result-card dsr-card" style="grid-column: 1 / -1; margin-bottom: 1rem;">
+                        <div class="flex-row" style="justify-content: center;">
+                            <span class="label" style="margin-bottom: 0;">자금 현황</span>
+                        </div>
+
+                        <!-- Required Funds -->
+                        <div style="margin-top: 1.5rem; margin-bottom: 2rem;">
+                            <div class="label-row">
+                                <span class="label-text">필요 자금</span>
+                                <span id="total-required-display" class="value-text">0원</span>
+                            </div>
+                            <div
+                                style="display: flex; height: 32px; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; margin-bottom: 0.75rem;">
+                                <div id="down-payment-bar"
+                                    style="background: #38bdf8; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; font-weight: 600; min-width: 50px;">
+                                    <span id="down-payment-value" style="color: white;">0원</span>
+                                </div>
+                                <div id="tax-bar"
+                                    style="background: #818cf8; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; font-weight: 600; min-width: 40px;">
+                                    <span id="tax-value" style="color: white;">0원</span>
+                                </div>
+                                <div id="fee-bar"
+                                    style="background: #c084fc; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; font-weight: 600; min-width: 40px;">
+                                    <span id="fee-value" style="color: white;">0원</span>
+                                </div>
+                            </div>
+                            <div class="legend-container">
+                                <div class="legend-item"><span class="legend-dot"
+                                        style="background: #38bdf8;"></span>자기자본</div>
+                                <div class="legend-item"><span class="legend-dot"
+                                        style="background: #818cf8;"></span>취득세</div>
+                                <div class="legend-item"><span class="legend-dot"
+                                        style="background: #c084fc;"></span>중개수수료</div>
+                            </div>
+                        </div>
+
+                        <!-- Owned Assets + Additional Needed -->
+                        <div>
+                            <div class="label-row">
+                                <span class="label-text">보유 자산 + 추가 필요자금</span>
+                                <span id="total-assets-visual" class="value-text">0원</span>
+                            </div>
+                            <div
+                                style="display: flex; height: 32px; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; margin-bottom: 0.75rem;">
+                                <div id="assets-bar"
+                                    style="background: #34d399; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; font-weight: 600; min-width: 50px;">
+                                    <span id="assets-value" style="color: white;">0원</span>
+                                </div>
+                                <div id="additional-bar"
+                                    style="background: #fb7185; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; font-weight: 600; min-width: 50px;">
+                                    <span id="additional-value" style="color: white;">0원</span>
+                                </div>
+                            </div>
+                            <div class="legend-container">
+                                <div class="legend-item"><span class="legend-dot" style="background: #34d399;"></span>보유
+                                    자산</div>
+                                <div class="legend-item"><span class="legend-dot" style="background: #fb7185;"></span>추가
+                                    필요자금</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Monthly Payment Card -->
+                    <div class="result-card" style="grid-column: 1 / -1;">
+                        <span class="label">월 예상 납입금 (<span id="common-method-display">원리금균등</span>)</span>
+                        <strong class="value" id="monthly-payment">0원</strong>
+                    </div>
+
+                    <!-- Yearly Interest Card -->
+                    <div class="result-card" style="grid-column: 1 / -1;">
+                        <span class="label">연 대출이자 상환액</span>
+                        <strong class="value" id="yearly-interest">0원</strong>
+                    </div>
+
+                    <!-- Chart Section -->
+                    <div class="result-card dsr-card" style="grid-column: 1 / -1; margin-top: 1rem;">
+                        <div class="flex-row" style="justify-content: center;">
+                            <span class="label" style="margin-bottom: 0;">연도별 월 상환금 변화 (주담대 + 기존부채)</span>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="repaymentChart"></canvas>
+                        </div>
+                    </div>
+            </section>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
