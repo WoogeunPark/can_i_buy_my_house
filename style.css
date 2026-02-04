@@ -735,30 +735,55 @@ h3 {
 .guide-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 2.5rem;
     text-align: left;
 }
 
+.guide-content article {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.3s;
+}
+
+.guide-content article:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(56, 189, 248, 0.2);
+}
+
 .guide-content h3 {
-    font-size: 1rem;
+    font-size: 1.05rem;
     margin-bottom: 0.75rem;
     color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .guide-content p,
 .guide-content ul {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .guide-content ul {
-    list-style-position: inside;
-    padding-left: 0;
+    list-style-type: none;
+    padding-left: 0.5rem;
 }
 
 .guide-content li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-left: 1.2rem;
+}
+
+.guide-content li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
 }
 
 @media (max-width: 768px) {
@@ -767,35 +792,40 @@ h3 {
     }
 }
 
-/* Footer Styles */
+/* Footer Styles Refined */
 .main-footer {
-    margin-top: 4rem;
-    padding-bottom: 2rem;
+    margin-top: 5rem;
+    padding: 3rem 0;
     text-align: center;
     border-top: 1px solid var(--glass-border);
-    padding-top: 2rem;
 }
 
 .footer-links {
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    margin-bottom: 1rem;
+    gap: 2.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .footer-links a {
     color: var(--text-muted);
-    text-decoration: none;
+    text-decoration: none !important;
     font-size: 0.85rem;
-    transition: 0.2s;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    opacity: 0.8;
 }
 
 .footer-links a:hover {
     color: var(--primary-color);
+    opacity: 1;
+    transform: translateY(-1px);
 }
 
 .main-footer p {
     font-size: 0.8rem;
     color: var(--text-muted);
-    opacity: 0.6;
+    opacity: 0.5;
+    letter-spacing: 0.5px;
 }
