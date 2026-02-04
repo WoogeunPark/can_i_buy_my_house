@@ -747,6 +747,12 @@ h3 {
     transition: 0.3s;
 }
 
+.guide-content article.disclaimer-article {
+    grid-column: 1 / -1;
+    border-left: 4px solid var(--accent-color);
+    background: rgba(129, 140, 248, 0.05);
+}
+
 .guide-content article:hover {
     background: rgba(255, 255, 255, 0.04);
     border-color: rgba(56, 189, 248, 0.2);
